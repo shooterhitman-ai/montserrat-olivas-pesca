@@ -22,6 +22,10 @@ jobs:
             exit 1
           fi
           cp -a MontserratOlivas_AndroidStudio/. .
+          echo "Comprobando que el contenido y la versión sean 1.4.0"
+          grep -Fq "versionName '1.4.0'" app/build.gradle
+          grep -Fq '<strong>1.4.0</strong>' app/src/main/assets/index.html
+          echo "Confirmado: APK versión 1.4.0"
       - uses: actions/setup-java@v4
         with:
           distribution: temurin
@@ -38,6 +42,6 @@ jobs:
         run: gradle --no-daemon assembleDebug
       - uses: actions/upload-artifact@v4
         with:
-          name: Montserrat-Olivas-APK
+          name: Montserrat-Olivas-APK-v1.4.0
           path: app/build/outputs/apk/debug/app-debug.apk
           if-no-files-found: error
