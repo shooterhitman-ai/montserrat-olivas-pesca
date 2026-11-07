@@ -13,7 +13,7 @@ jobs:
       - uses: actions/checkout@v4
       - name: Extraer proyecto Android
         run: |
-          unzip -o MontserratOlivas_Proyecto_Android_APK.zip
+          unzip -o MontserratOlivas_Proyecto_Android_Personalizado.zip
           cp -a MontserratOlivas_AndroidStudio/. .
       - uses: actions/setup-java@v4
         with:
