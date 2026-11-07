@@ -14,17 +14,12 @@ jobs:
       - name: Extraer proyecto Android
         run: |
           if [ -f MontserratOlivas_Android_Clima_Widget_Pro_v1_4.zip ]; then
-            echo "Usando versión 1.4 con clima, avisos avanzados y widget profesional"
             unzip -o MontserratOlivas_Android_Clima_Widget_Pro_v1_4.zip
-          elif [ -f MontserratOlivas_Android_Profesional_Ajustes_v1_2.zip ]; then
-            echo "Usando versión profesional 1.2.0 con configuración"
-            unzip -o MontserratOlivas_Android_Profesional_Ajustes_v1_2.zip
-          elif [ -f MontserratOlivas_Proyecto_Android_Widget_Notificaciones.zip ]; then
-            echo "Usando versión con widget y notificaciones"
-            unzip -o MontserratOlivas_Proyecto_Android_Widget_Notificaciones.zip
+          elif [ -f "MontserratOlivas_Android_Clima_Widget_Pro_v1_4 (1).zip" ]; then
+            unzip -o "MontserratOlivas_Android_Clima_Widget_Pro_v1_4 (1).zip"
           else
-            echo "Usando proyecto personalizado anterior"
-            unzip -o MontserratOlivas_Proyecto_Android_Personalizado.zip
+            echo "ERROR: No se encontró el proyecto Android v1.4 en el repositorio"
+            exit 1
           fi
           cp -a MontserratOlivas_AndroidStudio/. .
       - uses: actions/setup-java@v4
