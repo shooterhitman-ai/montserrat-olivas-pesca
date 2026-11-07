@@ -5,7 +5,7 @@ on:
   push:
     branches: [main]
     paths:
-      - 'Calendario_Pesca_Lunisolar_Darksec_v1_7_0.zip'
+      - 'Calendario_Pesca_Lunisolar_Darksec_GPS_Luna_Widget_v1_8_0.zip'
 
 jobs:
   build:
@@ -14,15 +14,19 @@ jobs:
       contents: read
     steps:
       - uses: actions/checkout@v4
-      - name: Extraer proyecto Lunisolar Darksec v1.7
+      - name: Extraer proyecto Lunisolar Darksec v1.8
         run: |
-          test -f Calendario_Pesca_Lunisolar_Darksec_v1_7_0.zip || { echo "Falta subir el ZIP v1.7.0 al repositorio"; exit 1; }
-          unzip -o Calendario_Pesca_Lunisolar_Darksec_v1_7_0.zip
+          test -f Calendario_Pesca_Lunisolar_Darksec_GPS_Luna_Widget_v1_8_0.zip || { echo "Falta subir el ZIP v1.8.0 al repositorio"; exit 1; }
+          unzip -o Calendario_Pesca_Lunisolar_Darksec_GPS_Luna_Widget_v1_8_0.zip
           cp -a MontserratOlivas_AndroidStudio/. .
-          echo "Verificando la versión 1.7.0"
-          grep -Fq "versionName '1.7.0'" app/build.gradle
-          grep -Fq '<strong>1.7.0</strong>' app/src/main/assets/index.html
-          grep -Fq 'Calendario Pesca Lunisolar Darksec' app/src/main/AndroidManifest.xml
+          echo "Verificando la versión 1.8.0 y las nuevas funciones"
+          grep -Fq "versionName '1.8.0'" app/build.gradle
+          grep -Fq '<strong>1.8.0</strong>' app/src/main/assets/index.html
+          grep -Fq 'id="moonRise"' app/src/main/assets/index.html
+          grep -Fq 'id="moonSet"' app/src/main/assets/index.html
+          grep -Fq 'autoGpsOnOpen' app/src/main/assets/index.html
+          grep -Fq 'widget_risk_detail' app/src/main/res/layout/moon_widget.xml
+          test -s app/src/main/assets/moon_times.js
       - uses: actions/setup-java@v4
         with:
           distribution: temurin
@@ -39,6 +43,6 @@ jobs:
         run: gradle --no-daemon assembleDebug
       - uses: actions/upload-artifact@v4
         with:
-          name: Lunisolar-Darksec-APK-v1.7.0
+          name: Lunisolar-Darksec-APK-v1.8.0
           path: app/build/outputs/apk/debug/app-debug.apk
           if-no-files-found: error
