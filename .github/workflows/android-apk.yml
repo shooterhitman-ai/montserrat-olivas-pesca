@@ -13,7 +13,11 @@ jobs:
       - uses: actions/checkout@v4
       - name: Extraer proyecto Android
         run: |
-          if [ -f MontserratOlivas_Proyecto_Android_Widget_Notificaciones.zip ]; then\n            unzip -o MontserratOlivas_Proyecto_Android_Widget_Notificaciones.zip\n          else\n            unzip -o MontserratOlivas_Proyecto_Android_Personalizado.zip\n          fi
+          if [ -f MontserratOlivas_Proyecto_Android_Widget_Notificaciones.zip ]; then
+            unzip -o MontserratOlivas_Proyecto_Android_Widget_Notificaciones.zip
+          else
+            unzip -o MontserratOlivas_Proyecto_Android_Personalizado.zip
+          fi
           cp -a MontserratOlivas_AndroidStudio/. .
       - uses: actions/setup-java@v4
         with:
