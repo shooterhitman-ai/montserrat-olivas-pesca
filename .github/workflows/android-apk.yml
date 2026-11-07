@@ -1,8 +1,11 @@
-name: Compilar APK Android
+name: Compilar APK Android - Lunisolar Darksec
+
 on:
   workflow_dispatch:
   push:
     branches: [main]
+    paths:
+      - 'Calendario_Pesca_Lunisolar_Darksec_v1_7_0.zip'
 
 jobs:
   build:
@@ -11,36 +14,15 @@ jobs:
       contents: read
     steps:
       - uses: actions/checkout@v4
-      - name: Extraer proyecto Android
+      - name: Extraer proyecto Lunisolar Darksec v1.7
         run: |
-          if [ -f MontserratOlivas_Android_Configuracion_Widget_Mapa_v1_6_0.zip ]; then
-            echo "Compilando Montserrat Olivas 1.6.0: widget compacto, unidades, mapa y formatos"
-            unzip -o MontserratOlivas_Android_Configuracion_Widget_Mapa_v1_6_0.zip
-            BUILD_VERSION="1.6.0"
-          elif [ -f MontserratOlivas_Android_Widget_Clima_Corregido_v1_5_1.zip ]; then
-            echo "Compilando versión 1.5.1: widget compatible, datos horarios alineados"
-            unzip -o MontserratOlivas_Android_Widget_Clima_Corregido_v1_5_1.zip
-            BUILD_VERSION="1.5.1"
-          elif [ -f MontserratOlivas_Android_Clima_Widget_v1_5_0.zip ]; then
-            echo "Compilando versión 1.5.0: widget, clima y ajustes auditados"
-            unzip -o MontserratOlivas_Android_Clima_Widget_v1_5_0.zip
-            BUILD_VERSION="1.5.0"
-          elif [ -f MontserratOlivas_Android_Clima_Widget_Pro_v1_4.zip ]; then
-            unzip -o MontserratOlivas_Android_Clima_Widget_Pro_v1_4.zip
-            BUILD_VERSION="1.4.0"
-          elif [ -f "MontserratOlivas_Android_Clima_Widget_Pro_v1_4 (1).zip" ]; then
-            unzip -o "MontserratOlivas_Android_Clima_Widget_Pro_v1_4 (1).zip"
-            BUILD_VERSION="1.4.0"
-          else
-            echo "ERROR: No se encontró ZIP del proyecto Android"
-            exit 1
-          fi
+          test -f Calendario_Pesca_Lunisolar_Darksec_v1_7_0.zip || { echo "Falta subir el ZIP v1.7.0 al repositorio"; exit 1; }
+          unzip -o Calendario_Pesca_Lunisolar_Darksec_v1_7_0.zip
           cp -a MontserratOlivas_AndroidStudio/. .
-          echo "BUILD_VERSION=$BUILD_VERSION" >> "$GITHUB_ENV"
-          echo "Verificando versión $BUILD_VERSION"
-          grep -Fq "versionName '$BUILD_VERSION'" app/build.gradle
-          grep -Fq "<strong>$BUILD_VERSION</strong>" app/src/main/assets/index.html
-          echo "Verificación de versión superada"
+          echo "Verificando la versión 1.7.0"
+          grep -Fq "versionName '1.7.0'" app/build.gradle
+          grep -Fq '<strong>1.7.0</strong>' app/src/main/assets/index.html
+          grep -Fq 'Calendario Pesca Lunisolar Darksec' app/src/main/AndroidManifest.xml
       - uses: actions/setup-java@v4
         with:
           distribution: temurin
@@ -57,6 +39,6 @@ jobs:
         run: gradle --no-daemon assembleDebug
       - uses: actions/upload-artifact@v4
         with:
-          name: Montserrat-Olivas-APK-v${{ env.BUILD_VERSION }}
+          name: Lunisolar-Darksec-APK-v1.7.0
           path: app/build/outputs/apk/debug/app-debug.apk
           if-no-files-found: error
