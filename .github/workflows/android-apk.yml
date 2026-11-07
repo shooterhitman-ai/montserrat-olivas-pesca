@@ -13,7 +13,10 @@ jobs:
       - uses: actions/checkout@v4
       - name: Extraer proyecto Android
         run: |
-          if [ -f MontserratOlivas_Android_Profesional_Ajustes_v1_2.zip ]; then
+          if [ -f MontserratOlivas_Android_Clima_Widget_Pro_v1_4.zip ]; then
+            echo "Usando versión 1.4 con clima, avisos avanzados y widget profesional"
+            unzip -o MontserratOlivas_Android_Clima_Widget_Pro_v1_4.zip
+          elif [ -f MontserratOlivas_Android_Profesional_Ajustes_v1_2.zip ]; then
             echo "Usando versión profesional 1.2.0 con configuración"
             unzip -o MontserratOlivas_Android_Profesional_Ajustes_v1_2.zip
           elif [ -f MontserratOlivas_Proyecto_Android_Widget_Notificaciones.zip ]; then
