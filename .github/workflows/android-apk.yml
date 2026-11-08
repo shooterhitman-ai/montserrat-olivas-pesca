@@ -5,7 +5,7 @@ on:
   push:
     branches: [main]
     paths:
-      - 'Calendario_Pesca_Lunisolar_Darksec_GPS_Widgets_Alertas_v1_9_0.zip'
+      - 'Calendario_Pesca_Lunisolar_Darksec_Organizado_v1_9_1.zip'
 
 jobs:
   build:
@@ -14,16 +14,18 @@ jobs:
       contents: read
     steps:
       - uses: actions/checkout@v4
-      - name: Extraer proyecto Lunisolar Darksec v1.9
+      - name: Extraer proyecto Lunisolar Darksec v1.9.1
         run: |
-          test -f 'Calendario_Pesca_Lunisolar_Darksec_GPS_Widgets_Alertas_v1_9_0.zip' || { echo "Falta subir el ZIP v1.9.0 al repositorio"; exit 1; }
-          unzip -o 'Calendario_Pesca_Lunisolar_Darksec_GPS_Widgets_Alertas_v1_9_0.zip'
+          test -f 'Calendario_Pesca_Lunisolar_Darksec_Organizado_v1_9_1.zip' || { echo "Falta subir el ZIP v1.9.1.1 al repositorio"; exit 1; }
+          unzip -o 'Calendario_Pesca_Lunisolar_Darksec_Organizado_v1_9_1.zip'
           cp -a MontserratOlivas_AndroidStudio/. .
-          echo "Comprobando version y funciones 1.9.0"
-          grep -Fq "versionName '1.9.0'" app/build.gradle
-          grep -Fq '<strong>1.9.0</strong>' app/src/main/assets/index.html
+          echo "Comprobando version y funciones 1.9.1"
+          grep -Fq "versionName '1.9.1'" app/build.gradle
+          grep -Fq '<strong>1.9.1</strong>' app/src/main/assets/index.html
           grep -Fq 'id="prefWidgetFont"' app/src/main/assets/index.html
           grep -Fq 'openDarksecNotification' app/src/main/assets/index.html
+          grep -Fq 'class="dashboard-stack stack-luna"' app/src/main/assets/index.html
+          grep -Fq 'class="dashboard-stack stack-clima"' app/src/main/assets/index.html
           test -s app/src/main/java/com/montserratolivas/pesca/PotentialWidget.java
           test -s app/src/main/res/layout/potential_widget.xml
           test -s app/src/main/res/xml/potential_widget_info.xml
@@ -43,6 +45,6 @@ jobs:
         run: gradle --no-daemon assembleDebug
       - uses: actions/upload-artifact@v4
         with:
-          name: Lunisolar-Darksec-APK-v1.9.0
+          name: Lunisolar-Darksec-APK-v1.9.1.1
           path: app/build/outputs/apk/debug/app-debug.apk
           if-no-files-found: error
