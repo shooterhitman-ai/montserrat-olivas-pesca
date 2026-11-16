@@ -6,6 +6,7 @@ on:
     branches: [main]
     paths:
       - 'Calendario_Pesca_Lunisolar_Darksec_v1_10_0.zip'
+      - 'forecast-current-readings-v1_10_0.zip'
       - '.github/workflows/android-apk.yml'
 
 jobs:
@@ -22,6 +23,9 @@ jobs:
           unzip -q -o "$archive" -d extracted-project
           project='extracted-project/Calendario_Pesca_Lunisolar_Darksec_v1_10_0'
           test -f "$project/app/build.gradle" || { echo "El ZIP no contiene el proyecto v1.10.0 esperado"; exit 1; }
+          hotfix='forecast-current-readings-v1_10_0.zip'
+          test -f "$hotfix" || { echo "Falta el paquete de lecturas actuales del pronóstico"; exit 1; }
+          unzip -q -o "$hotfix" -d "$project"
           cp -a "$project"/. .
           echo "Comprobando versión y funciones 1.10.0"
           grep -Fq "versionName '1.10.0'" app/build.gradle
@@ -36,6 +40,10 @@ jobs:
           grep -Fq 'id="feelsKpi"' app/src/main/assets/index.html
           grep -Fq 'id="humidityKpi"' app/src/main/assets/index.html
           grep -Fq 'id="precipKpi"' app/src/main/assets/index.html
+          grep -Fq 'darksecCurrentTimeMarker' app/src/main/assets/index.html
+          grep -Fq "label:'Viento'" app/src/main/assets/index.html
+          grep -Fq "label:'Lluvia'" app/src/main/assets/index.html
+          test -s app/src/main/assets/current_time_marker.js
           grep -Fq 'android.permission.RECORD_AUDIO' app/src/main/AndroidManifest.xml
           test -s app/src/main/assets/location_search.js
           test -s app/src/main/java/com/montserratolivas/pesca/PotentialWidget.java
