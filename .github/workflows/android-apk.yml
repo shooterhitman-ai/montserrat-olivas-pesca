@@ -5,8 +5,7 @@ on:
   push:
     branches: [main]
     paths:
-      - 'Calendario_Pesca_Lunisolar_Darksec_v1_10_0.zip'
-      - 'forecast-current-readings-v1_10_0.zip'
+      - 'Calendario_Pesca_Lunisolar_Darksec_v1_10_1.zip'
       - '.github/workflows/android-apk.yml'
 
 jobs:
@@ -16,36 +15,24 @@ jobs:
       contents: read
     steps:
       - uses: actions/checkout@v4
-      - name: Extraer proyecto Lunisolar Darksec v1.10.0
+      - name: Extraer proyecto Lunisolar Darksec v1.10.1
         run: |
-          archive='Calendario_Pesca_Lunisolar_Darksec_v1_10_0.zip'
-          test -f "$archive" || { echo "Falta subir el ZIP v1.10.0 al repositorio"; exit 1; }
+          archive='Calendario_Pesca_Lunisolar_Darksec_v1_10_1.zip'
+          test -f "$archive" || { echo "Falta subir el ZIP v1.10.1 a la raíz del repositorio"; exit 1; }
           unzip -q -o "$archive" -d extracted-project
-          project='extracted-project/Calendario_Pesca_Lunisolar_Darksec_v1_10_0'
-          test -f "$project/app/build.gradle" || { echo "El ZIP no contiene el proyecto v1.10.0 esperado"; exit 1; }
-          hotfix='forecast-current-readings-v1_10_0.zip'
-          test -f "$hotfix" || { echo "Falta el paquete de lecturas actuales del pronóstico"; exit 1; }
-          unzip -q -o "$hotfix" -d "$project"
+          project='extracted-project/Calendario_Pesca_Lunisolar_Darksec_v1_10_1'
+          test -f "$project/app/build.gradle" || { echo "El ZIP no contiene el proyecto v1.10.1 esperado"; exit 1; }
           cp -a "$project"/. .
-          echo "Comprobando versión y funciones 1.10.0"
-          grep -Fq "versionName '1.10.0'" app/build.gradle
-          grep -Fq '<strong>1.10.0</strong>' app/src/main/assets/index.html
-          grep -Fq 'id="prefWidgetFont"' app/src/main/assets/index.html
-          grep -Fq 'openDarksecNotification' app/src/main/assets/index.html
-          grep -Fq 'class="dashboard-stack stack-luna"' app/src/main/assets/index.html
-          grep -Fq 'class="dashboard-stack stack-clima"' app/src/main/assets/index.html
-          grep -Fq 'id="mapSearchQuery"' app/src/main/assets/index.html
-          grep -Fq 'id="mapSearchVoice"' app/src/main/assets/index.html
-          grep -Fq 'id="favoriteList"' app/src/main/assets/index.html
-          grep -Fq 'id="feelsKpi"' app/src/main/assets/index.html
-          grep -Fq 'id="humidityKpi"' app/src/main/assets/index.html
-          grep -Fq 'id="precipKpi"' app/src/main/assets/index.html
+          echo "Comprobando versión y funciones 1.10.1"
+          grep -Fq "versionCode 15" app/build.gradle
+          grep -Fq "versionName '1.10.1'" app/build.gradle
+          grep -Fq '<strong>1.10.1</strong>' app/src/main/assets/index.html
+          grep -Fq 'forecastSelectedSummary' app/src/main/assets/index.html
+          grep -Fq 'Riesgo meteorológico' app/src/main/assets/index.html
+          grep -Fq 'hourVisualStatus' app/src/main/assets/index.html
+          grep -Fq 'selectForecastTimestamp' app/src/main/assets/index.html
           grep -Fq 'darksecCurrentTimeMarker' app/src/main/assets/index.html
-          grep -Fq "label:'Viento'" app/src/main/assets/index.html
-          grep -Fq "label:'Lluvia'" app/src/main/assets/index.html
           test -s app/src/main/assets/current_time_marker.js
-          grep -Fq 'android.permission.RECORD_AUDIO' app/src/main/AndroidManifest.xml
-          test -s app/src/main/assets/location_search.js
           test -s app/src/main/java/com/montserratolivas/pesca/PotentialWidget.java
           test -s app/src/main/res/layout/potential_widget.xml
           test -s app/src/main/res/xml/potential_widget_info.xml
@@ -65,7 +52,7 @@ jobs:
         run: gradle --no-daemon assembleDebug
       - uses: actions/upload-artifact@v4
         with:
-          name: Lunisolar-Darksec-APK-v1.10.0
+          name: Lunisolar-Darksec-APK-v1.10.1
           path: app/build/outputs/apk/debug/app-debug.apk
           if-no-files-found: error
           retention-days: 30
