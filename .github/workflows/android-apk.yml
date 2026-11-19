@@ -5,7 +5,7 @@ on:
   push:
     branches: [main]
     paths:
-      - 'Calendario_Pesca_Lunisolar_Darksec_v1_10_5.zip'
+      - 'Calendario_Pesca_Lunisolar_Darksec_v1_10_6.zip'
       - '.github/workflows/android-apk.yml'
 
 jobs:
@@ -15,18 +15,18 @@ jobs:
       contents: read
     steps:
       - uses: actions/checkout@v4
-      - name: Extraer proyecto Lunisolar Darksec v1.10.5
+      - name: Extraer proyecto Lunisolar Darksec v1.10.6
         run: |
-          archive='Calendario_Pesca_Lunisolar_Darksec_v1_10_5.zip'
-          test -f "$archive" || { echo "Falta subir el ZIP v1.10.5 a la raíz del repositorio"; exit 1; }
+          archive='Calendario_Pesca_Lunisolar_Darksec_v1_10_6.zip'
+          test -f "$archive" || { echo "Falta subir el ZIP v1.10.6 a la raíz del repositorio"; exit 1; }
           unzip -q -o "$archive" -d extracted-project
-          project='extracted-project/Calendario_Pesca_Lunisolar_Darksec_v1_10_5'
-          test -f "$project/app/build.gradle" || { echo "El ZIP no contiene el proyecto v1.10.5 esperado"; exit 1; }
+          project='extracted-project/Calendario_Pesca_Lunisolar_Darksec_v1_10_6'
+          test -f "$project/app/build.gradle" || { echo "El ZIP no contiene el proyecto v1.10.6 esperado"; exit 1; }
           cp -a "$project"/. .
-          echo "Comprobando versión y funciones 1.10.5"
-          grep -Fq "versionCode 19" app/build.gradle
-          grep -Fq "versionName '1.10.5'" app/build.gradle
-          grep -Fq '<strong>1.10.5</strong>' app/src/main/assets/index.html
+          echo "Comprobando versión y funciones 1.10.6"
+          grep -Fq "versionCode 20" app/build.gradle
+          grep -Fq "versionName '1.10.6'" app/build.gradle
+          grep -Fq '<strong>1.10.6</strong>' app/src/main/assets/index.html
           grep -Fq 'forecastSelectedSummary' app/src/main/assets/index.html
           grep -Fq 'Ajusta la letra del widget principal (85–120 %)' app/src/main/assets/index.html
           grep -Fq '{R.id.widget_temp, 13},{R.id.widget_rain, 13},{R.id.widget_wind, 13}' app/src/main/java/com/montserratolivas/pesca/MoonWidget.java
@@ -56,11 +56,13 @@ jobs:
       - uses: gradle/actions/setup-gradle@v4
         with:
           gradle-version: '8.9'
+      - name: Verificar búsqueda y comandos de voz
+        run: node tests/search-check.cjs
       - name: Compilar APK
         run: gradle --no-daemon assembleDebug
       - uses: actions/upload-artifact@v4
         with:
-          name: Lunisolar-Darksec-APK-v1.10.5
+          name: Lunisolar-Darksec-APK-v1.10.6
           path: app/build/outputs/apk/debug/app-debug.apk
           if-no-files-found: error
           retention-days: 30
